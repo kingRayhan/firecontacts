@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import Layout from '../components/Layout'
 import { FormGroup, Input, Label, FormFeedback, Button } from 'reactstrap'
-
+import { v4 } from 'uuid'
 import { connect } from 'react-redux'
 import { addContact } from '../store/actions/addContact'
 
 import { isEmail, isEmpty } from 'validator'
+import { saveContact } from '../store/reducers/contactReducer'
 
 class Add extends Component {
     state = {
@@ -35,12 +36,13 @@ class Add extends Component {
 
         // TODO: how it works?
         if (Object.keys(errors).length === 0) {
-            this.props.addContact(this.state.contact)
+            this.props.addContact({ id: v4(), ...this.state.contact }) // save in redux store
+            this.props.saveContact(
+                { id: v4(), ...this.state.contact },
+                this.props.auth.userId
+            ) // save in firebase db
             this.props.history.push('/')
         }
-
-        // this.props.addContact(this.state.contact)
-        // this.props.history.push('/')
     }
 
     onChange = e => {
@@ -87,6 +89,6 @@ class Add extends Component {
 }
 
 export default connect(
-    null,
-    { addContact }
+    state => ({ ...state }),
+    { addContact, saveContact }
 )(Add)

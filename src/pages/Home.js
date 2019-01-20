@@ -14,7 +14,7 @@ import {
 import { removeContact } from '../store/actions/removeContact'
 import { addToBookMark } from '../store/actions/addToBookmark'
 import { removeFromBookmark } from '../store/actions/removeFromBookmark'
-
+import { BarLoader } from 'react-spinners'
 class Home extends Component {
     state = {
         searchTerm: '',
@@ -38,6 +38,18 @@ class Home extends Component {
     }
 
     render() {
+        if (this.props.meta.loading)
+            return (
+                <Layout>
+                    <div className="text-center">
+                        <BarLoader
+                            sizeUnit={'px'}
+                            size={500}
+                            color={'#123abc'}
+                        />
+                    </div>
+                </Layout>
+            )
         if (this.props.contacts.length === 0)
             return (
                 <Layout>

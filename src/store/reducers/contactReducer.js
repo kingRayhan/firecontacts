@@ -1,11 +1,14 @@
+import toastr from 'toastr'
+import db from '../firebase'
+import { getAuth } from './authReducer'
 import {
     ADD_CONTACT,
     REMOVE_CONTACT,
     EDIT_CONTACT,
 } from '../actions/actionTypes'
+import { loadingState } from './metaReducer'
 
-import db from '../firebase'
-import { getAuth } from './authReducer'
+export const SET_CONTACTS = 'SET_CONTACTS'
 
 const contacts = []
 
@@ -30,6 +33,9 @@ const reducer = (state = contacts, { type, payload }) => {
             contacts[index] = payload.newData
             return contacts
         }
+        case SET_CONTACTS: {
+            return payload
+        }
 
         default:
             return state
@@ -39,5 +45,28 @@ const reducer = (state = contacts, { type, payload }) => {
 export default reducer
 
 export const saveContact = contact => dispatch => {
-    // dispatch(getAuth())
+    const userid = localStorage.getItem('auth_userId')
+
+    db.collection('users')
+        .doc(userid)
+        .get()
+        .then(res => {
+            // get existing contact array
+            const contacts =
+                res.data().contacts !== undefined
+                    ? [...res.data().contacts]
+                    : []
+            // push new contact to the array
+            contacts.push(contact)
+
+            // overrite existing contact array with new contact after push
+            db.collection('users')
+                .doc(userid)
+                .update({ contacts })
+                .then(res => {
+                    toastr.success('Successfully Saved!!')
+                })
+        })
 }
+
+export const setContacts = payload => ({ type: SET_CONTACTS, payload })

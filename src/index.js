@@ -2,6 +2,7 @@ import React from 'react'
 import { render } from 'react-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'toastr/build/toastr.css'
+
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import db from './store/firebase'

@@ -1,5 +1,7 @@
 import { AUTH_SETUSER } from '../actions/actionTypes'
 import db, { auth } from '../firebase'
+import { loadingState } from './metaReducer'
+import { setContacts } from './contactReducer'
 
 const GET_AUTH = 'GET_AUTH'
 
@@ -14,9 +16,6 @@ const reducer = (
         case AUTH_SETUSER: {
             return payload
         }
-        case GET_AUTH: {
-            return state
-        }
         default:
             return state
     }
@@ -25,12 +24,16 @@ const reducer = (
 export default reducer
 
 export const authSetuser = () => dispatch => {
+    dispatch(loadingState(true))
     auth.onAuthStateChanged(user => {
         if (user)
             db.collection('users')
                 .doc(user.uid)
                 .get()
                 .then(res => {
+                    dispatch(loadingState(false))
+                    dispatch(setContacts(res.data().contacts || []))
+
                     dispatch({
                         type: AUTH_SETUSER,
                         payload: {
@@ -40,7 +43,8 @@ export const authSetuser = () => dispatch => {
                         },
                     })
                 })
-        else
+        else {
+            dispatch(loadingState(false))
             dispatch({
                 type: AUTH_SETUSER,
                 payload: {
@@ -48,6 +52,7 @@ export const authSetuser = () => dispatch => {
                     user: null,
                 },
             })
+        }
     })
 }
 
@@ -62,7 +67,3 @@ export const authLogout = () => dispatch => {
         })
     })
 }
-
-export const getAuth = () => ({
-    type: GET_AUTH,
-})

@@ -28,7 +28,9 @@ class Login extends Component {
     onSubmit = e => {
         e.preventDefault()
         auth.signInWithEmailAndPassword(this.state.email, this.state.password)
-            .then(res => console.log(res))
+            .then(res => {
+                localStorage.setItem('auth_userId', res.user.uid)
+            })
             .catch(e => toastr.error(e.message))
     }
 

@@ -32,6 +32,12 @@ class AppNavba extends React.Component {
             isOpen: !this.state.isOpen,
         })
     }
+
+    logout = () => {
+        this.props.authLogout()
+        localStorage.removeItem('auth_userId')
+    }
+
     render() {
         return (
             <div>
@@ -70,11 +76,7 @@ class AppNavba extends React.Component {
                                     <DropdownMenu right>
                                         <DropdownItem>settings</DropdownItem>
                                         <DropdownItem divider />
-                                        <DropdownItem
-                                            onClick={() =>
-                                                this.props.authLogout()
-                                            }
-                                        >
+                                        <DropdownItem onClick={this.logout}>
                                             Logout
                                         </DropdownItem>
                                     </DropdownMenu>
