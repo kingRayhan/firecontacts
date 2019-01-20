@@ -22,6 +22,11 @@ class Login extends Component {
         password: '',
     }
 
+    componentDidMount() {
+        localStorage.getItem('auth_userId') !== null &&
+            this.props.history.push('/')
+    }
+
     onChange = e => {
         this.setState({ [e.target.name]: e.target.value })
     }
@@ -30,6 +35,7 @@ class Login extends Component {
         auth.signInWithEmailAndPassword(this.state.email, this.state.password)
             .then(res => {
                 localStorage.setItem('auth_userId', res.user.uid)
+                this.props.history.push('/')
             })
             .catch(e => toastr.error(e.message))
     }
@@ -55,7 +61,7 @@ class Login extends Component {
                                 </FormGroup>
                             ))}
                             <FormGroup>
-                                <button>Login</button>
+                                <Button color="danger">Register</Button>
                             </FormGroup>
                         </form>
                     </CardBody>

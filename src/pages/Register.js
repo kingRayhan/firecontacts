@@ -24,6 +24,10 @@ class Register extends Component {
         email: '',
         password: '',
     }
+    componentDidMount() {
+        localStorage.getItem('auth_userId') !== null &&
+            this.props.history.push('/')
+    }
 
     onChange = e => {
         this.setState({ [e.target.name]: e.target.value })
@@ -41,6 +45,8 @@ class Register extends Component {
 
         auth.createUserWithEmailAndPassword(email, password)
             .then(res => {
+                localStorage.setItem('auth_userId', res.user.uid)
+
                 db.collection('users')
                     .doc(res.user.uid)
                     .set({
@@ -51,7 +57,10 @@ class Register extends Component {
                             email,
                         },
                     })
-                    .then(res => toastr.success('Registration successfully'))
+                    .then(res => {
+                        this.props.history.push('/')
+                        toastr.success('Registration successfully')
+                    })
             })
             .catch(e => toastr.error(e.message))
     }
@@ -84,7 +93,7 @@ class Register extends Component {
                                 </FormGroup>
                             ))}
                             <FormGroup>
-                                <button>Register</button>
+                                <Button color="danger">Register</Button>
                             </FormGroup>
                         </form>
                     </CardBody>
