@@ -1,6 +1,6 @@
-import { ADD_BOOKMARK } from './actionTypes'
+import { ADD_BOOKMARK } from "./actionTypes";
 
-export const addToBookMark = contact => ({
-    type: ADD_BOOKMARK,
-    payload: contact,
-})
+export const addToBookMark = (contact) => ({
+  type: ADD_BOOKMARK,
+  payload: contact,
+});

@@ -1,3 +1,6 @@
-import { REMOVE_BOOKMARK } from './actionTypes'
+import { REMOVE_BOOKMARK } from "./actionTypes";
 
-export const removeFromBookmark = id => ({ type: REMOVE_BOOKMARK, payload: id })
+export const removeFromBookmark = (id) => ({
+  type: REMOVE_BOOKMARK,
+  payload: id,
+});
