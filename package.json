@@ -2,6 +2,7 @@
   "name": "fire-contacts",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://kingrayhan.github.io/firecontacts",
   "dependencies": {
     "@emotion/core": "^10.0.6",
     "bootstrap": "^4.2.1",
@@ -25,8 +26,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "gh-pages -d build",
-    "now-build": "react-scripts build && mv build dist"
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
