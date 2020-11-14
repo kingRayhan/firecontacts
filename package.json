@@ -2,7 +2,7 @@
   "name": "fire-contacts",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://kingrayhan.github.io/firecontacts",
+  "homepage": "https://kingrayhan.github.io/firecontacts",
   "dependencies": {
     "@emotion/core": "^10.0.6",
     "bootstrap": "^4.2.1",
